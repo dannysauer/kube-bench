@@ -62,7 +62,7 @@ kind-run: ensure-stern
 	KUBECONFIG=$(KUBECONFIG) \
 		kubectl apply -f ./hack/kind.test.yaml
 	KUBECONFIG=$(KUBECONFIG) \
-		stern -l app=kube-bench --container kube-bench
+		./stern -l app=kube-bench --container kube-bench
 
 # ensures that stern is installed
 HAS_STERN := $(shell command -v stern;)
@@ -70,5 +70,5 @@ ensure-stern:
 ifndef HAS_STERN
 	curl -LO https://github.com/wercker/stern/releases/download/1.10.0/stern_$(BUILD_OS)_amd64 && \
 		chmod +rx ./stern_$(BUILD_OS)_amd64 && \
-    	mv ./stern_$(BUILD_OS)_amd64 /usr/local/bin/stern
+    	ln -sf ./stern_$(BUILD_OS)_amd64 ./stern
 endif
